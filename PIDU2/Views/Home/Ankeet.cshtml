@@ -1,0 +1,68 @@
+﻿@model PIDU2.Models.Guest
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary()
+    <p>Sisesta nimi: @Html.TextBoxFor(x => x.Name)</p>
+    <p>Sisesta email: @Html.TextBoxFor(x => x.Email)</p>
+    <p>Sisesta tel: @Html.TextBoxFor(x => x.Phone)</p>
+    <p>
+        Sinu valik:
+        @Html.DropDownListFor(x => x.WillAttend,
+       new[]
+       {
+           new SelectListItem() {Text="Tule kindlasti!", Value=bool.TrueString},
+           new SelectListItem() {Text="Kahjuks ei saa tulla!", Value=bool.FalseString},
+       }, "Vali siit")
+    </p>
+    <input type="submit" value="Saada vastus" />
+}
+<style>
+    body {
+        background-color: #1a1a1a;
+        color: #fff;
+        font-family: 'YourDesiredFont', sans-serif;
+        text-align: center;
+        font-size: 30px;
+        margin: 0;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    p {
+        color: gray; 
+    }
+
+    h1 {
+        color: #ff9900;
+    }
+
+
+    .navbar {
+        background-color: #333;
+        color: #fff;
+    }
+
+
+    a {
+        color: #ff9900;
+    }
+
+        a:hover {
+            color: #fff;
+        }
+
+
+    .btn {
+        background-color: #ff9900;
+        color: #fff;
+    }
+
+        .btn:hover {
+            background-color: #333;
+        }
+</style>
+
+

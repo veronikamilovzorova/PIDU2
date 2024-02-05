@@ -1,0 +1,110 @@
+﻿@{
+    ViewBag.Title = "Tere tulemast peole! Kutse";
+
+    
+    int currentMonth = DateTime.Now.Month;
+
+    
+    string holidayMessage = "";
+    string imagePath = "~/defaultImage.png"; 
+
+   
+    switch (currentMonth)
+    {
+        case 1: 
+            holidayMessage = "Head uut aastat!";
+            imagePath = "~/kik4.png";
+            break;
+        case 2: 
+            holidayMessage = "Head sõbrapäeva!!";
+            imagePath = "~/kik1.png";
+            break;
+        case 3: 
+            holidayMessage = "Meeleheite keelu päev!";
+            imagePath = "~/februar.jpg";
+            break;
+        case 4: 
+            holidayMessage = "С Днем Защитника Отечества!";
+            imagePath = "~/februar.jpg";
+            break;
+       
+        default:
+            holidayMessage = "Добро пожаловать!";
+            break;
+    }
+
+
+    ViewBag.Message = holidayMessage;
+    imagePath = Url.Content(imagePath);
+}
+
+<div class="jumbotron">
+    <h2>@ViewBag.Greeting, Kutse</h2>
+</div>
+<div>
+    @ViewBag.Message
+    <img src="@imagePath" />
+</div>
+
+<div>
+    @Html.ActionLink("Vastan", "Ankeet", new { @class = "btn btn-primary" })
+</div>
+
+<style>
+    body {
+        background-color: #1a1a1a;
+        color: #fff;
+        font-family: 'YourDesiredFont', sans-serif;
+        text-align: center;
+        font-size: 30px;
+        margin: 0;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .jumbotron {
+        background-color: rgba(0, 0, 0, 0)
+    }
+
+
+    h1 {
+        color: #ff9900;
+        text-align: center;
+    }
+
+
+    .navbar {
+        background-color: #333;
+        color: #fff;
+        text-align: center;
+    }
+
+
+    a {
+        color: #ff9900;
+        text-align: center;
+    }
+
+        a:hover {
+            color: #fff;
+            text-align: center;
+        }
+
+
+    .btn {
+        background-color: #ff9900;
+        text-align: center;
+        color: #fff;
+        /
+    }
+
+        .btn:hover {
+            background-color: #333;
+            text-align: center;
+        }
+</style>
+
+
