@@ -1,4 +1,6 @@
-﻿using PIDU2.Models;
+﻿using Microsoft.AspNet.Identity.Owin;
+using Microsoft.AspNet.Identity;
+using PIDU2.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -17,6 +19,7 @@ namespace PIDU2.Controllers
             return View();
         }
 
+
         public ActionResult Kutse()
         {
             int hour = DateTime.Now.Hour;
@@ -24,7 +27,20 @@ namespace PIDU2.Controllers
             ViewBag.Message = "Ootan teid peole! Tule kindlasti!";
             return View();
         }
+        [Authorize]
+        public ActionResult Roll()
+        {
+            IList<string> roles = new List<string> { "Roll ei ole maaratud" };
+            ApplicationUserManager userManager = HttpContext.GetOwinContext()
+                                                        .GetUserManager<ApplicationUserManager>();
+            ApplicationUser user = userManager.FindByEmail(User.Identity.Name);
 
+            if (user != null)
+                roles = userManager.GetRoles(user.Id);
+
+
+            return View(roles);
+        }
         public ActionResult About()
         {
             ViewBag.Message = "";
@@ -38,6 +54,11 @@ namespace PIDU2.Controllers
 
             return View();
         }
+        [HttpGet]
+        public ActionResult Ankeet()
+        {
+            return View();
+        }
         public ViewResult Ankeet(Guest guest)
         {
             E_mail(guest);
@@ -49,6 +70,8 @@ namespace PIDU2.Controllers
             else
             { return View(); }
         }
+       
+        
         public void E_mail(Guest guest)
         {
             try
@@ -70,8 +93,17 @@ namespace PIDU2.Controllers
             }
 
         }
+        PeoContext dabik = new PeoContext();
+        [Authorize]
+        public ActionResult Peod()
+        {
+            IEnumerable<Peo> Peod = dabik.Peod;
+            return View(Peod);
+        }
+
         GuestContext db= new GuestContext();
         //[Authorize]
+        [Authorize]
         public ActionResult Guests()
         {
             IEnumerable<Guest> guests= db.Guests;
@@ -81,6 +113,21 @@ namespace PIDU2.Controllers
         public ActionResult Create()
         {
             return View();
+        }
+        
+
+        [HttpGet]
+        public ActionResult crit()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult crit(Peo Peod)
+        {
+            dabik.Peod.Add(Peod);
+            dabik.SaveChanges();
+            return RedirectToAction("Peod");
+
         }
         [HttpPost]
         public ActionResult Create(Guest guest)
@@ -131,5 +178,13 @@ namespace PIDU2.Controllers
             db.SaveChanges();
             return RedirectToAction("Guests");
         }
+        [HttpGet]
+        public ActionResult Accept()
+        {
+            IEnumerable<Guest> guests = db.Guests.Where(g => (bool)g.WillAttend);
+            return View(guests);
+        }
+       
     }
+
 }
